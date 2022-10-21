@@ -153,4 +153,26 @@
 
 #define d_m3EnableCodePageRefCounting           0       // not supported currently
 
+// mem ------------------------------------------------------------------------
+
+# ifndef M3_MALLOC
+#   define M3_MALLOC calloc
+# endif
+
+# ifndef M3_MEMSET
+#   define M3_MEMSET memset
+# endif
+
+# ifndef M3_FREE
+#   define M3_FREE free
+# endif
+
+# ifndef M3_MEMCPY
+#   define M3_MEMCPY memcpy
+# endif
+
+# ifndef M3_REALLOC
+#   define M3_REALLOC realloc
+# endif
+
 #endif // m3_config_h
