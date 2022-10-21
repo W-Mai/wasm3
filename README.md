@@ -2,6 +2,22 @@
 
 本仓库为特别修改wasm3，用于特殊用途，如无必要，<span style="color:red; font-weight: 700; font-size: 24px;">请勿使用</span>。
 
+## 配置
+复制一份`m3_config_template.h`, 命名为`m3_config.h`，并将其加入编译系统。
+重新定义其中的内存操作相关宏。
+
+如使用[lvgl](https://github.com/lvgl/lvgl)的内存分配池，则可配置为：
+```c++
+#include "lvgl/lvgl.h"
+
+#define M3_MALLOC   lv_malloc
+#define M3_MEMSET   lv_memset
+#define M3_FREE     lv_free
+#define M3_MEMCPY   lv_memcpy
+#define M3_REALLOC  lv_realloc
+```
+
+其他配置内容，按照需要进行修改。
 
 # 以下为原文内容：
 
