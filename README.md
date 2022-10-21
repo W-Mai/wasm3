@@ -1,3 +1,10 @@
+# Wasm3 Spec Version
+
+本仓库为特别修改wasm3，用于特殊用途，如无必要，<span style="color:red; font-weight: 700; font-size: 24px;">请勿使用</span>。
+
+
+# 以下为原文内容：
+
 <img align="right" width="30%" src="/extra/screenshot-ios.png">
 
 # <img src="/extra/wasm-symbol.svg" width="32" height="32" /> Wasm3
