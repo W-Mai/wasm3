@@ -156,7 +156,7 @@
 // mem ------------------------------------------------------------------------
 
 # ifndef M3_MALLOC
-#   define M3_MALLOC calloc
+#   define M3_MALLOC malloc
 # endif
 
 # ifndef M3_MEMSET
