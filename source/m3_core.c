@@ -73,7 +73,7 @@ void *  m3_Malloc_Impl  (size_t i_size)
         return NULL;
     }
 
-    memset (ptr, 0x0, i_size);
+    M3_MEMSET (ptr, 0x0, i_size);
     fixedHeapLast = ptr;
 
     return ptr;
@@ -111,12 +111,12 @@ void *  m3_Realloc_Impl  (void * i_ptr, size_t i_newSize, size_t i_oldSize)
             return NULL;
         }
         if (i_ptr) {
-            memcpy(newPtr, i_ptr, i_oldSize);
+            M3_MEMCPY(newPtr, i_ptr, i_oldSize);
         }
     }
 
     if (i_newSize > i_oldSize) {
-        memset ((u8 *) newPtr + i_oldSize, 0x0, i_newSize - i_oldSize);
+        M3_MEMSET ((u8 *) newPtr + i_oldSize, 0x0, i_newSize - i_oldSize);
     }
 
     return newPtr;
@@ -126,24 +126,30 @@ void *  m3_Realloc_Impl  (void * i_ptr, size_t i_newSize, size_t i_oldSize)
 
 void *  m3_Malloc_Impl  (size_t i_size)
 {
-    return calloc (i_size, 1);
+    void * ptr = M3_MALLOC(i_size);
+    if(!ptr)
+    {
+        return NULL;
+    }
+    M3_MEMSET(ptr, 0, i_size);
+    return ptr;
 }
 
 void  m3_Free_Impl  (void * io_ptr)
 {
-    free (io_ptr);
+    M3_FREE (io_ptr);
 }
 
 void *  m3_Realloc_Impl  (void * i_ptr, size_t i_newSize, size_t i_oldSize)
 {
     if (M3_UNLIKELY(i_newSize == i_oldSize)) return i_ptr;
 
-    void * newPtr = realloc (i_ptr, i_newSize);
+    void * newPtr = M3_REALLOC (i_ptr, i_newSize);
 
     if (M3_LIKELY(newPtr))
     {
         if (i_newSize > i_oldSize) {
-            memset ((u8 *) newPtr + i_oldSize, 0x0, i_newSize - i_oldSize);
+            M3_MEMSET ((u8 *) newPtr + i_oldSize, 0x0, i_newSize - i_oldSize);
         }
         return newPtr;
     }
@@ -156,7 +162,7 @@ void *  m3_CopyMem  (const void * i_from, size_t i_size)
 {
     void * ptr = m3_Malloc("CopyMem", i_size);
     if (ptr) {
-        memcpy (ptr, i_from, i_size);
+        M3_MEMCPY (ptr, i_from, i_size);
     }
     return ptr;
 }
@@ -253,7 +259,7 @@ M3Result  Read_u64  (u64 * o_value, bytes_t * io_bytes, cbytes_t i_end)
 
     if (ptr <= i_end)
     {
-        memcpy(o_value, * io_bytes, sizeof(u64));
+        M3_MEMCPY(o_value, * io_bytes, sizeof(u64));
         M3_BSWAP_u64(*o_value);
         * io_bytes = ptr;
         return m3Err_none;
@@ -269,7 +275,7 @@ M3Result  Read_u32  (u32 * o_value, bytes_t * io_bytes, cbytes_t i_end)
 
     if (ptr <= i_end)
     {
-        memcpy(o_value, * io_bytes, sizeof(u32));
+        M3_MEMCPY(o_value, * io_bytes, sizeof(u32));
         M3_BSWAP_u32(*o_value);
         * io_bytes = ptr;
         return m3Err_none;
@@ -286,7 +292,7 @@ M3Result  Read_f64  (f64 * o_value, bytes_t * io_bytes, cbytes_t i_end)
 
     if (ptr <= i_end)
     {
-        memcpy(o_value, * io_bytes, sizeof(f64));
+        M3_MEMCPY(o_value, * io_bytes, sizeof(f64));
         M3_BSWAP_f64(*o_value);
         * io_bytes = ptr;
         return m3Err_none;
@@ -302,7 +308,7 @@ M3Result  Read_f32  (f32 * o_value, bytes_t * io_bytes, cbytes_t i_end)
 
     if (ptr <= i_end)
     {
-        memcpy(o_value, * io_bytes, sizeof(f32));
+        M3_MEMCPY(o_value, * io_bytes, sizeof(f32));
         M3_BSWAP_f32(*o_value);
         * io_bytes = ptr;
         return m3Err_none;
@@ -502,7 +508,7 @@ M3Result  Read_utf8  (cstr_t * o_utf8, bytes_t * io_bytes, cbytes_t i_end)
 
                 if (utf8)
                 {
-                    memcpy (utf8, ptr, utf8Length);
+                    M3_MEMCPY (utf8, ptr, utf8Length);
                     utf8 [utf8Length] = 0;
                     * o_utf8 = utf8;
                 }
