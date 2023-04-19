@@ -328,7 +328,7 @@ d_m3ErrorConst  (trapStackOverflow,             "[trap] stack overflow")
 //  raw function definition helpers
 //-------------------------------------------------------------------------------------------------------------------------------
 
-# define m3ApiOffsetToPtr(offset)   (void*)((uint8_t*)_mem + (uint32_t)(offset))
+# define m3ApiOffsetToPtr(offset)   (void*)((uint8_t*)_mem + (uint32_t)(uintptr_t)(offset))
 # define m3ApiPtrToOffset(ptr)      (uint32_t)((uint8_t*)ptr - (uint8_t*)_mem)
 
 # define m3ApiReturnType(TYPE)                 TYPE* raw_return = ((TYPE*) (_sp++));
